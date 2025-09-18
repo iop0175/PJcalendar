@@ -7,14 +7,15 @@ function Sidebar(props) {
         person,
         team,
         showPerson,
-        showTeam
+        showTeam,
+        userData
     } = props;
     return (
         <>
             <div id='sideBar' className={sideBarHidden ? 'hide' : ''}>
                 <div id='header'>
                     <div>대</div>
-                    <div>은대기</div>
+                    <div>{userData?.name}</div>
                     <div onClick={sideclose}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M17.59 18L19 16.59L14.42 12L19 7.41L17.59 6L11.59 12L17.59 18Z" fill="white" />

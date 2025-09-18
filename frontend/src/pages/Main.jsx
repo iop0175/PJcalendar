@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState ,useEffect } from 'react';
 import axios from "axios";
 import Sidebar from '../component/Sidebar.jsx';
 import MainTop from '../component/MainTop.jsx';
@@ -9,11 +9,26 @@ import TeamCard from '../component/TeamCard.jsx';
 import Fullcalendar from '../component/Fullcalendar.jsx';
 import '../css/Main.css';
 function Main(props) {
-    const [count, setCount] = useState(0)
-    function teest() {
-        axios.get("http://localhost:3000/api/test")
-            .then(res => console.log(res.data))
-    }
+    const [userData, setUserData] = useState(null);
+    useEffect(() => {
+        const token = localStorage.getItem('accessToken');
+        if (!token) return;
+
+        axios.post(
+            "http://localhost:3000/user/token",
+            {},
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        )
+            .then(res => {
+                console.log('토큰 인증 결과:', res.data);
+                setUserData(res.data); 
+            })
+            .catch(err => console.error('토큰 인증 실패:', err));
+    }, []);
     const [showPerson, setShowPerson] = useState(false);
     const [showTeam, setShowTeam] = useState(false);
     const [sideBarHidden, setSideBarHidden] = useState(false);
@@ -39,7 +54,8 @@ function Main(props) {
                 person={person}
                 team={team}
                 showPerson={showPerson}
-                showTeam={showTeam} />
+                showTeam={showTeam} 
+                userData={userData}/>
             <div id='mainContent'>
                 <MainTop sideBarHidden={sideBarHidden} setModalon={setModalon} Modalon={Modalon} />
                 <div

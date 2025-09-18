@@ -16,6 +16,7 @@ function Login(props) {
             const res = await axios.post("http://localhost:3000/user/login", { userid, password });
             console.log('서버 응답:', res.data);
             if (res.data.success == true) {
+                localStorage.setItem('accessToken', res.data.accessToken);
                 navigate("/main");
             } else {
                 alert('로그인 x')
