@@ -3,7 +3,7 @@ import axios from 'axios';
 function FindId(props) {
     const {
         back
-    } = propss
+    } = props
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const findid = async () => {
