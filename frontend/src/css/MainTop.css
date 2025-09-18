@@ -1,0 +1,19 @@
+#mainTop{
+  display: flex;
+  margin: 1% 0 0 1%;
+  width: 100%;
+  position: relative;
+  
+}
+#mainTop svg {
+  vertical-align: middle;
+}
+#mainTopRight{
+  display: flex;
+  position: absolute;
+  right: 1%;
+  width: 5%;
+}
+#mainTopRight > div:nth-child(1){
+  margin-right: 20%;
+}

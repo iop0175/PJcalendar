@@ -1,0 +1,109 @@
+#ModalsideBar {
+    margin-left: 0.5%;
+    position: absolute;
+    z-index: 100;
+    width: 15vw;
+    background-color: #1E1E1E;
+    height: auto;
+    opacity: 1;
+    transform: translateX(-120%);
+    transition: transform 0.4s;
+    top: 1%;
+    left: 0;
+    opacity: 0;
+    border-radius: 1vw;
+    color: white;
+}
+
+#ModalsideBar.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+#Modalheader {
+    padding-top: 5%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+#Modalheader>div:nth-child(1) {
+    width: 10%;
+    text-align: center;
+    border-radius: 10%;
+    margin-left: 5%;
+    font-size: 1vw;
+    font-weight: bold;
+    border: 1px solid white;
+}
+
+#Modalheader>div:nth-child(2) {
+    margin-left: 10%;
+    font-size: 1vw;
+    font-weight: bold;
+}
+
+#Modalheader>div:nth-child(3) {
+    margin-left: auto;
+    margin-right: 5%;
+    font-size: 1vw;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+#ModalsideBar:hover #Modalheader>div:nth-child(3) {
+    opacity: 1;
+}
+
+#Modalheader>div:nth-child(4) {
+    margin-left: 5%;
+    margin-right: 5%;
+    font-size: 1vw;
+    font-weight: bold;
+}
+
+#Modalheader svg {
+    vertical-align: middle;
+}
+
+#Modalnav {
+    margin-top: 10%;
+    width: 100%;
+}
+
+.navList {
+    margin-bottom: 2%;
+    margin-left: 10%;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    font-size: 1vw;
+}
+
+.navList>div {
+    margin-left: 10%;
+    text-align: left;
+}
+
+.navList svg {
+    width: 10%;
+}
+
+.newProject {
+    display: none;
+    margin-left: 10%;
+    align-items: center;
+    font-size: 0.8vw;
+    cursor: pointer;
+    color: gray;
+}
+
+.newProject svg {
+    width: 10%;
+    margin-right: 5%;
+}
+.navList:last-child {
+    margin-bottom: 10%;
+}

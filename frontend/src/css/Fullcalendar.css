@@ -1,0 +1,37 @@
+.fc-day a{
+    color: black;
+}
+.fc-day-sun a {
+    color: red;
+}
+  
+.fc-day-sat a {
+    color: blue;
+}
+.fc .fc-button {
+  background-color: #1E1E1E;
+  border: none;
+  color: #fff;
+}
+
+.fc-list-event:hover {
+  color: blue;      
+  cursor: pointer;   
+}
+.App > h2{
+  margin-left: 40%;
+  width: 20%;
+  font-size: 2vw;
+  font-weight: bold;
+}
+.App > div{
+  margin-left: 7.5%;
+  width: 85%;
+}
+#btnlist{
+  display: flex;
+  gap: 1%;
+}
+#btnlist > button:nth-child(2){
+  margin-left: auto;
+}

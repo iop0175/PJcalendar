@@ -1,0 +1,49 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+#mainBox{
+  width: 99vw;
+  display: flex;
+  height: 220vh;
+}
+#menu.hide{
+  display: none;
+}
+#mainContent{
+  overflow: hidden;
+}
+
+#mainContent{
+  width: 100%;
+}
+#content{
+  width: 100%;
+}
+.cardbox{
+  width: 85%;
+  margin-left: 7.5%;
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 5%;
+}
+
+.teamCardbox{
+  width: 85%;
+  margin-left: 7.5%;
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 5%;
+}
+#content > h1{
+  margin-left: 5%;
+}
+#calendarBox{
+  width: 85%;
+  margin-left: 7.5%;
+  display: grid;
+  grid-template-columns: 70% 30%;
+  gap: 1%;
+  height: 100%;
+}
