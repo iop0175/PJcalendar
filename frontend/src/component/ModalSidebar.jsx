@@ -1,18 +1,20 @@
 import React from 'react';
 import '../css/ModalSidebar.css';
 function ModalSidebar(props) {
-    const { sideopen, 
+    const { sideopen,
         person,
         team,
         Modalon,
         showPerson,
-        showTeam } = props;
+        showTeam,
+        userData,
+        projects } = props;
     return (
         <>
             <div id='ModalsideBar' className={Modalon ? "show" : ""}>
                 <div id='Modalheader'>
                     <div>대</div>
-                    <div>은대기</div>
+                    <div>{userData?.name}</div>
                     <div onClick={sideopen}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M6 6L4.59 7.41L9.17 12L4.59 16.59L6 18L12 12L6 6Z" fill="white" />
@@ -50,10 +52,17 @@ function ModalSidebar(props) {
                         </svg>
                         <div>개인</div>
                     </div>
-                    <div className='newProject' id='person' style={{ display: showPerson ? 'block' : 'none' }}><svg width="14"
-                        height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M14 8H8V14H6V8H0V6H6V0H8V6H14V8Z" fill="white" />
-                    </svg>개인 프로젝트 생성하기</div>
+                    {showPerson &&(<div>
+                        {projects.length > 0 ? (projects.map(project => (
+                            <div className='newProject' key={project._id} >{project.title}1</div>
+                        ))
+                        ) : (
+                            <div className='newProject'  style={{ display: showPerson ? 'block' : 'none' }}><svg width="14"
+                                height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14 8H8V14H6V8H0V6H6V0H8V6H14V8Z" fill="white" />
+                            </svg>개인 프로젝트 생성하기</div>
+                        )}
+                    </div>)}
                     <div href="" className='navList' onClick={team}>
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path

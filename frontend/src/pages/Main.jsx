@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState ,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from "axios";
 import Sidebar from '../component/Sidebar.jsx';
 import MainTop from '../component/MainTop.jsx';
@@ -7,10 +7,15 @@ import ModalSidebar from '../component/ModalSidebar.jsx';
 import Card from '../component/Card.jsx';
 import TeamCard from '../component/TeamCard.jsx';
 import Fullcalendar from '../component/Fullcalendar.jsx';
+import { useNavigate } from 'react-router-dom';
 import '../css/Main.css';
 function Main(props) {
+    const navigate = useNavigate();
     const [userData, setUserData] = useState(null);
+    const [projects, setProjects] = useState([]);
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
+        let isMounted = true;
         const token = localStorage.getItem('accessToken');
         if (!token) return;
 
@@ -24,10 +29,18 @@ function Main(props) {
             }
         )
             .then(res => {
-                console.log('토큰 인증 결과:', res.data);
-                setUserData(res.data); 
+                setUserData(res.data);
+                return axios.get("http://localhost:3000/project/list",
+                    { params: { userid: res.data.userid } })
+                    .then(res => {
+                        setProjects(res.data);
+                    })
             })
-            .catch(err => console.error('토큰 인증 실패:', err));
+            .catch(err => {
+                navigate("/");
+                alert('시간만료');
+            })
+            .finally(() => setLoading(false));
     }, []);
     const [showPerson, setShowPerson] = useState(false);
     const [showTeam, setShowTeam] = useState(false);
@@ -49,13 +62,14 @@ function Main(props) {
     }
     return (
         <div id='mainBox'>
-            <Sidebar sideBarHidden={sideBarHidden}
+            {!loading && <Sidebar sideBarHidden={sideBarHidden}
                 sideclose={sideclose}
                 person={person}
                 team={team}
                 showPerson={showPerson}
-                showTeam={showTeam} 
-                userData={userData}/>
+                showTeam={showTeam}
+                userData={userData}
+                projects={projects} />}
             <div id='mainContent'>
                 <MainTop sideBarHidden={sideBarHidden} setModalon={setModalon} Modalon={Modalon} />
                 <div
@@ -68,12 +82,14 @@ function Main(props) {
                         person={person}
                         team={team}
                         showPerson={showPerson}
-                        showTeam={showTeam} />
+                        showTeam={showTeam}
+                        userData={userData}
+                        projects={projects} />
                 </div>
                 <div id='content'>
                     <h1>개인 프로젝트</h1>
                     <div className='cardbox'>
-                        <Card />
+                        <Card projects={projects} />
                     </div>
                     <h1>팀 프로젝트</h1>
                     <div className='teamCardbox'>

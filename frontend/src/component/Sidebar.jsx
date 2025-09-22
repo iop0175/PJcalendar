@@ -8,7 +8,8 @@ function Sidebar(props) {
         team,
         showPerson,
         showTeam,
-        userData
+        userData,
+        projects
     } = props;
     return (
         <>
@@ -54,10 +55,17 @@ function Sidebar(props) {
                         </svg>
                         <div>개인</div>
                     </div>
-                    <div className='newProject' id='person' style={{ display: showPerson ? 'block' : 'none' }}><svg width="14"
-                        height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M14 8H8V14H6V8H0V6H6V0H8V6H14V8Z" fill="white" />
-                    </svg>개인 프로젝트 생성하기</div>
+                    {showPerson &&(<div>
+                        {projects.length > 0 ? (projects.map(project => (
+                            <div className='newProject' key={project._id} >{project.title}1</div>
+                        ))
+                        ) : (
+                            <div className='newProject'  style={{ display: showPerson ? 'block' : 'none' }}><svg width="14"
+                                height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14 8H8V14H6V8H0V6H6V0H8V6H14V8Z" fill="white" />
+                            </svg>개인 프로젝트 생성하기</div>
+                        )}
+                    </div>)}
                     <div href="" className='navList' onClick={team}>
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -66,7 +74,7 @@ function Sidebar(props) {
                         </svg>
                         <div>팀</div>
                     </div>
-                    <div className='newProject' id='team' style={{ display: showTeam ? 'block' : 'none' }}><svg width="14" height="14"
+                    <div className='newProject' style={{ display: showTeam ? 'block' : 'none' }}><svg width="14" height="14"
                         viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M14 8H8V14H6V8H0V6H6V0H8V6H14V8Z" fill="white" />
                     </svg>팀 프로젝트 생성하기</div>
