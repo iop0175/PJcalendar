@@ -3,6 +3,7 @@ function Card(props) {
     const {
         projects
     } = props
+    console.log(projects )
     return (
         <div>
             {projects.length > 0 ? (

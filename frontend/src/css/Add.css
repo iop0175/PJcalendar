@@ -1,0 +1,19 @@
+.title {
+    font-size: 1.5vw;
+    font-weight: bold;
+    margin-left: 10%;
+}
+
+.addContentBox {
+    width: 80%;
+    margin-left: 10%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+.addContentBox>div>div{
+    margin-top: 10%;
+}
+.addContentBox>div>div>input {
+    width: 80%;
+    height: 5vh;
+}

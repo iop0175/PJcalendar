@@ -4,21 +4,26 @@ import axios from "axios";
 import Sidebar from '../component/Sidebar.jsx';
 import MainTop from '../component/MainTop.jsx';
 import ModalSidebar from '../component/ModalSidebar.jsx';
-import Card from '../component/Card.jsx';
-import TeamCard from '../component/TeamCard.jsx';
-import Fullcalendar from '../component/Fullcalendar.jsx';
+import MainContent from '../component/MainContent.jsx'
 import { useNavigate } from 'react-router-dom';
-import '../css/Main.css';
+import Add from '../component/Add.jsx'
+
 function Main(props) {
     const navigate = useNavigate();
     const [userData, setUserData] = useState(null);
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [showPerson, setShowPerson] = useState(false);
+    const [showTeam, setShowTeam] = useState(false);
+    const [sideBarHidden, setSideBarHidden] = useState(false);
+    const [Modalon, setModalon] = useState(false);
+    const token = localStorage.getItem('accessToken');
+    const [activePage, setActivePage] = useState("main");
     useEffect(() => {
-        let isMounted = true;
-        const token = localStorage.getItem('accessToken');
-        if (!token) return;
 
+        let isMounted = true;
+
+        if (!token) return;
         axios.post(
             "http://localhost:3000/user/token",
             {},
@@ -42,10 +47,6 @@ function Main(props) {
             })
             .finally(() => setLoading(false));
     }, []);
-    const [showPerson, setShowPerson] = useState(false);
-    const [showTeam, setShowTeam] = useState(false);
-    const [sideBarHidden, setSideBarHidden] = useState(false);
-    const [Modalon, setModalon] = useState(false);
     function person() {
         setShowPerson(prev => !prev);
     }
@@ -69,7 +70,8 @@ function Main(props) {
                 showPerson={showPerson}
                 showTeam={showTeam}
                 userData={userData}
-                projects={projects} />}
+                projects={projects}
+                setActivePage ={setActivePage} />}
             <div id='mainContent'>
                 <MainTop sideBarHidden={sideBarHidden} setModalon={setModalon} Modalon={Modalon} />
                 <div
@@ -84,20 +86,11 @@ function Main(props) {
                         showPerson={showPerson}
                         showTeam={showTeam}
                         userData={userData}
-                        projects={projects} />
+                        projects={projects} 
+                        setActivePage ={setActivePage}/>
                 </div>
-                <div id='content'>
-                    <h1>개인 프로젝트</h1>
-                    <div className='cardbox'>
-                        <Card projects={projects} />
-                    </div>
-                    <h1>팀 프로젝트</h1>
-                    <div className='teamCardbox'>
-                        <TeamCard />
-                    </div>
-                    <h1>프로젝트 달력</h1>
-                    <Fullcalendar />
-                </div>
+                {activePage === "main" && <MainContent projects={projects} />}
+                {activePage === "add" && <Add userData={userData}/>}
             </div>
         </div>
     );

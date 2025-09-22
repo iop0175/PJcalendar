@@ -9,8 +9,10 @@ function Sidebar(props) {
         showPerson,
         showTeam,
         userData,
-        projects
+        projects,
+        setActivePage
     } = props;
+        console.log(projects >0)
     return (
         <>
             <div id='sideBar' className={sideBarHidden ? 'hide' : ''}>
@@ -24,7 +26,7 @@ function Sidebar(props) {
                         </svg>
 
                     </div>
-                    <div>
+                    <div onClick={() => setActivePage("add")}>
                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M14 8H8V14H6V8H0V6H6V0H8V6H14V8Z" fill="white" />
                         </svg>
@@ -39,14 +41,14 @@ function Sidebar(props) {
                         </svg>
                         <div>검색</div>
                     </a>
-                    <a href="" className='navList'>
+                    <div className='navList'  onClick={() => setActivePage("main")}>
                         <svg width="19" height="17" viewBox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M7.19785 15.655V10.655H11.1979V15.655C11.1979 16.205 11.6479 16.655 12.1979 16.655H15.1979C15.7479 16.655 16.1979 16.205 16.1979 15.655V8.655H17.8979C18.3579 8.655 18.5779 8.085 18.2279 7.785L9.86785 0.255C9.48785 -0.085 8.90785 -0.085 8.52785 0.255L0.167852 7.785C-0.172148 8.085 0.0378519 8.655 0.497852 8.655H2.19785V15.655C2.19785 16.205 2.64785 16.655 3.19785 16.655H6.19785C6.74785 16.655 7.19785 16.205 7.19785 15.655Z"
                                 fill="white" />
                         </svg>
                         <div>Home</div>
-                    </a>
+                    </div>
                     <div className='navList' onClick={person}>
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -57,10 +59,10 @@ function Sidebar(props) {
                     </div>
                     {showPerson &&(<div>
                         {projects.length > 0 ? (projects.map(project => (
-                            <div className='newProject' key={project._id} >{project.title}1</div>
+                            <div className='newProject' key={project._id} style={{ display: showPerson ? 'block' : 'none' }}>{project.title}</div>
                         ))
                         ) : (
-                            <div className='newProject'  style={{ display: showPerson ? 'block' : 'none' }}><svg width="14"
+                            <div className='newProject'  style={{ display: showPerson ? 'block' : 'none' }}onClick={() => setActivePage("add")}><svg width="14"
                                 height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M14 8H8V14H6V8H0V6H6V0H8V6H14V8Z" fill="white" />
                             </svg>개인 프로젝트 생성하기</div>
@@ -74,7 +76,7 @@ function Sidebar(props) {
                         </svg>
                         <div>팀</div>
                     </div>
-                    <div className='newProject' style={{ display: showTeam ? 'block' : 'none' }}><svg width="14" height="14"
+                    <div className='newProject' style={{ display: showTeam ? 'block' : 'none' }} onClick={() => setActivePage("add")}><svg width="14" height="14"
                         viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M14 8H8V14H6V8H0V6H6V0H8V6H14V8Z" fill="white" />
                     </svg>팀 프로젝트 생성하기</div>
