@@ -4,43 +4,75 @@ import Milestones from './Milestones';
 import '../css/Add.css';
 
 function Add(props) {
-    const{
-        userData
-    }=props
+    const { userData } = props;
+    const [file, setFile] = useState(null);
     const [projectTitle, setProjectTitle] = useState('');
     const [projectDesc, setProjectDesc] = useState('');
     const [milestones, setMilestones] = useState([]);
+    const [mindate, setMindate] = useState('');
+    const [maxdate, setMaxdate] = useState('');
 
     const addMilestone = () => {
-        setMilestones(prev => [...prev, { title: '', start: '', end: '' ,todos:[]}]);
+        setMilestones(prev => [...prev, { title: '', start: '', end: '', todos: [] }]);
+    };
+
+    const handleFileChange = (e) => {
+        setFile(e.target.files[0]);
     };
 
     const handleMilestoneChange = (index, field, value) => {
         const newMilestones = [...milestones];
         newMilestones[index][field] = value;
         setMilestones(newMilestones);
+
+        const allDates = newMilestones.flatMap(item => [
+            new Date(item.start),
+            new Date(item.end || item.start)
+        ]);
+
+        setMindate(new Date(Math.min(...allDates)));
+        setMaxdate(new Date(Math.max(...allDates)));
     };
 
     const handleSubmit = async () => {
+        if (!file) {
+            alert("파일을 선택하세요!");
+            return;
+        }
+
         try {
+            const formData = new FormData();
+            formData.append("file", file);
+
+            const fileRes = await axios.post("http://localhost:3000/project/file", formData, {
+                headers: { "Content-Type": "multipart/form-data" }
+            });
+
+            console.log("파일 업로드 응답:", fileRes.data);
+
             const payload = {
                 userid: userData.userid,
                 title: projectTitle,
                 description: projectDesc,
-                milestones: milestones
+                start: mindate,
+                end: maxdate,
+                milestones: milestones,
+                filename: fileRes.data.filename,
+                path: fileRes.data.path
             };
-            console.log(payload);
-            const res = await axios.post('http://localhost:3000/project/create', payload, {
+
+            const projectRes = await axios.post("http://localhost:3000/project/create", payload, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('accessToken')}`
                 }
             });
 
-            console.log('서버 응답:', res.data);
-            alert('프로젝트가 등록되었습니다!');
+            console.log("프로젝트 생성 응답:", projectRes.data);
+            alert("프로젝트가 등록되었습니다!");
+
         } catch (err) {
-            console.error('에러:', err);
-            alert('등록 실패');
+            console.error("에러:", err);
+            alert("등록 실패");
         }
     };
 
@@ -91,7 +123,8 @@ function Add(props) {
                 </div>
                 <div>
                     <div>
-                        <h2 className='addTitle' >썸네일</h2>
+                        <h2 className='addTitle'>썸네일</h2>
+                        <input type="file" onChange={handleFileChange} />
                         <p>프로젝트 대표이미지를 추가해 주세요</p>
                     </div>
                     <div>

@@ -8,9 +8,7 @@ function MainContent(props) {
     return (
         <div id='content'>
             <h1>개인 프로젝트</h1>
-            <div className='cardbox'>
-                <Card projects={projects} />
-            </div>
+            <Card projects={projects} />
             <h1>팀 프로젝트</h1>
             <div className='teamCardbox'>
                 <TeamCard />
