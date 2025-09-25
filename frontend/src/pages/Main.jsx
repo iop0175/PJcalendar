@@ -19,6 +19,7 @@ function Main(props) {
     const [Modalon, setModalon] = useState(false);
     const token = localStorage.getItem('accessToken');
     const [activePage, setActivePage] = useState("main");
+    const [reload, setReload] = useState(false);
     useEffect(() => {
 
         let isMounted = true;
@@ -46,7 +47,7 @@ function Main(props) {
                 alert('시간만료');
             })
             .finally(() => setLoading(false));
-    }, []);
+    }, [reload]);
     function person() {
         setShowPerson(prev => !prev);
     }
@@ -90,7 +91,7 @@ function Main(props) {
                         setActivePage ={setActivePage}/>
                 </div>
                 {activePage === "main" && <MainContent projects={projects} />}
-                {activePage === "add" && <Add userData={userData}/>}
+                {activePage === "add" && <Add userData={userData} setReload={setReload}/>}
             </div>
         </div>
     );

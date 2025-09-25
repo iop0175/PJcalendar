@@ -6,7 +6,6 @@ body, html {
 #mainBox{
   width: 99vw;
   display: flex;
-  height: 220vh;
 }
 #menu.hide{
   display: none;

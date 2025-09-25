@@ -3,9 +3,13 @@
     font-weight: bold;
     margin-left: 10%;
 }
+input{
+    border: none;
+}
 
 .addContentBox {
     width: 80%;
+    height: 80%;
     margin-left: 10%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -16,4 +20,117 @@
 .addContentBox>div>div>input {
     width: 80%;
     height: 5vh;
+}
+.milestoneBox{
+    display: flex;
+    position: relative;
+}
+.closeMilestone{
+    position: absolute;
+    left: -5%;
+}
+.userAddBox{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 99;
+}
+.userAddBox > div:nth-child(1){
+    margin-top: 10%;
+    margin-left: 30%;
+    width: 40%;
+    height: 60%;
+    background-color: white;
+    border-radius: 2vw;
+}
+.userAddContent{
+    width: 90%;
+    height: 70%;
+    margin-left: 5%;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+}
+.userAddTop{
+    width: 90%;
+    display: flex;
+    align-items: center;
+    margin-left: 5%;
+    
+}
+.userAddTop > div:nth-child(2){
+    width: 30%;
+    text-align: right;
+    margin-left: auto;
+}
+.userAddContent > div:nth-child(1){
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+}
+
+.selectedUsers{
+    border-left: 1px solid;
+    display: flex;
+    flex-direction: column;
+}
+.selectedUsers > h3{
+    margin-left: 10%;
+}
+.selectUser{
+    display: inline-block;
+    border: 1px solid;
+    width: 50%;
+    margin-left: 25%;
+    border-radius: 2vw;
+    text-align: center;
+    margin-bottom: 2%;
+}
+.userAddContent > div:nth-child(1) > input{
+    z-index: 1;
+    height: 10%;
+}
+.suggestions > div{
+    padding-left: 2%;
+    border-left: 2px solid #ededed;
+    border-right: 2px solid #ededed;
+    z-index: 2;
+}
+.boderInput{
+    border-radius: 2vw;
+    border:  2px solid #ededed;;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
+}
+.noneInput{
+    border-top-left-radius: 1vw;
+    border-top-right-radius: 1vw;
+    border-top: 2px solid #ededed;
+    border-left: 2px solid #ededed;
+    border-right: 2px solid #ededed;
+}
+.suggestions > div:last-child{
+    border-left: 2px solid #ededed;
+    border-right: 2px solid #ededed;
+    border-bottom: 2px solid #ededed;
+    border-bottom-left-radius: 1vw;
+    border-bottom-right-radius: 1vw;
+
+    z-index: 2;
+}
+.suggestions>div:hover{
+    background-color: rgba(0, 0, 0, 0.1);
+}
+.addusers{
+    text-align: center;
+    width: 10%;
+    margin-left: 45%;
+    border-radius: 1vw;
+    border: 1px solid;
+    margin-top: 5%;
+    font-weight: bold;
+}
+.addusers:hover{
+    background-color: rgba(0, 0, 0, 0.1);
 }

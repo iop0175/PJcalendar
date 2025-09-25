@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Milestones({ index, milestone, onChange }) {
+function Milestones({ index, milestone, onChange , onRemove }) {
 
     const addTodo = () => {
         const newTodos = milestone.todos ? [...milestone.todos, ""] : [""];
@@ -15,32 +15,34 @@ function Milestones({ index, milestone, onChange }) {
 
     return (
         <div className="milestone">
-            <label>
-                일정 제목
-                <input
-                    type="text"
-                    placeholder="일정 제목"
-                    value={milestone.title}
-                    onChange={e => onChange(index, 'title', e.target.value)}
-                />
-            </label>
-            <label>
-                시작일
-                <input
-                    type="date"
-                    value={milestone.start}
-                    onChange={e => onChange(index, 'start', e.target.value)}
-                />
-            </label>
-            <label>
-                종료일
-                <input
-                    type="date"
-                    value={milestone.end}
-                    onChange={e => onChange(index, 'end', e.target.value)}
-                />
-            </label>
-
+            <div className='milestoneBox'>
+                <div className='closeMilestone'onClick={() => onRemove(index)} >x</div>
+                <label>
+                    일정 제목
+                    <input
+                        type="text"
+                        placeholder="일정 제목"
+                        value={milestone.title}
+                        onChange={e => onChange(index, 'title', e.target.value)}
+                    />
+                </label>
+                <label>
+                    시작일
+                    <input
+                        type="date"
+                        value={milestone.start}
+                        onChange={e => onChange(index, 'start', e.target.value)}
+                    />
+                </label>
+                <label>
+                    종료일
+                    <input
+                        type="date"
+                        value={milestone.end}
+                        onChange={e => onChange(index, 'end', e.target.value)}
+                    />
+                </label>
+            </div>
             <div>
                 {milestone.todos?.map((todo, idx) => (
                     <input

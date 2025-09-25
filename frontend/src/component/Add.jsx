@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Milestones from './Milestones';
 import '../css/Add.css';
+import Useradd from './Useradd';
 
 function Add(props) {
     const { userData } = props;
@@ -11,7 +12,12 @@ function Add(props) {
     const [milestones, setMilestones] = useState([]);
     const [mindate, setMindate] = useState('');
     const [maxdate, setMaxdate] = useState('');
-
+    const [adduser, setAdduser] = useState(false);
+    const [selectedUsers, setSelectedUsers] = useState([]);
+    const handleRemoveMilestone = (index) => {
+        const newMilestones = milestones.filter((_, i) => i !== index);
+        setMilestones(newMilestones);
+    };
     const addMilestone = () => {
         setMilestones(prev => [...prev, { title: '', start: '', end: '', todos: [] }]);
     };
@@ -40,6 +46,40 @@ function Add(props) {
             return;
         }
 
+        if (!projectTitle.trim()) {
+            alert("프로젝트 제목을 입력하세요!");
+            return;
+        }
+
+        if (!projectDesc.trim()) {
+            alert("프로젝트 설명을 입력하세요!");
+            return;
+        }
+
+        if (projectDesc.length > 100) {
+            alert("프로젝트 설명은 100자 이내로 작성해주세요!");
+            return;
+        }
+
+        if (milestones.length === 0) {
+            alert("일정을 최소 1개 이상 추가하세요!");
+            return;
+        }
+
+        if (milestones.length === 0 || milestones.some(m => !m.title || m.title.trim() === "")) {
+            alert("일정 제목을 입력하세요!");
+            return;
+        }
+
+        if (milestones.length === 0 || milestones.some(m => !m.start || m.start.trim() === "")) {
+            alert("일정 시작일을 입력하세요!");
+            return;
+        }
+
+        if (milestones.length === 0 || milestones.some(m => !m.end || m.end.trim() === "")) {
+            alert("일정 종료일을 입력하세요!");
+            return;
+        }
         try {
             const formData = new FormData();
             formData.append("file", file);
@@ -50,29 +90,50 @@ function Add(props) {
 
             console.log("파일 업로드 응답:", fileRes.data);
 
-            const payload = {
-                userid: userData.userid,
-                title: projectTitle,
-                description: projectDesc,
-                start: mindate,
-                end: maxdate,
-                milestones: milestones,
-                filename: fileRes.data.filename,
-                path: fileRes.data.path
-            };
 
-            const projectRes = await axios.post("http://localhost:3000/project/create", payload, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-                }
-            });
+            if (selectedUsers.length > 0) {
+                const payload = {
+                    userid: userData.userid,
+                    title: projectTitle,
+                    description: projectDesc,
+                    start: mindate,
+                    end: maxdate,
+                    milestones: milestones,
+                    filename: fileRes.data.filename,
+                    path: fileRes.data.path,
+                    mate: selectedUsers.map(u => ({
+                        userid: u.userid,
+                        name: u.name
+                    }))
+                };
 
-            console.log("프로젝트 생성 응답:", projectRes.data);
-            alert("프로젝트가 등록되었습니다!");
-
+                const projectRes = await axios.post("http://localhost:3000/project/teamcreate", payload, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                    }
+                });
+                console.log("팀 프로젝트 생성 응답:", projectRes.data);
+            } else {
+                const payload = {
+                    userid: userData.userid,
+                    title: projectTitle,
+                    description: projectDesc,
+                    start: mindate,
+                    end: maxdate,
+                    milestones: milestones,
+                    filename: fileRes.data.filename,
+                    path: fileRes.data.path
+                };
+                const projectRes = await axios.post("http://localhost:3000/project/create", payload, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                    }
+                });
+                console.log("프로젝트 생성 응답:", projectRes.data);
+            }
+            props.setReload(prev => !prev);
         } catch (err) {
             console.error("에러:", err);
-            alert("등록 실패");
         }
     };
 
@@ -95,7 +156,7 @@ function Add(props) {
                         <h2 className='addTitle'>프로젝트 개요</h2>
                         <input
                             type="text"
-                            placeholder="프로젝트의 설명을 간단하게 작성해주세요 (Max 300자)"
+                            placeholder="프로젝트의 설명을 간단하게 작성해주세요 (Max 100자)"
                             value={projectDesc}
                             onChange={e => setProjectDesc(e.target.value)}
                         />
@@ -110,6 +171,7 @@ function Add(props) {
                                     index={idx}
                                     milestone={m}
                                     onChange={handleMilestoneChange}
+                                    onRemove={handleRemoveMilestone}
                                 />
                             ))}
                         </div>
@@ -130,12 +192,20 @@ function Add(props) {
                     <div>
                         <h2 className='addTitle'>프로젝트 팀원 추가</h2>
                         <p>프로젝트 함께 진행할 팀원을 추가해 주세요(팀원 추가 없으면 개인프로젝트)</p>
-                        <div>+팀원 추가하기</div>
+                        <div onClick={() => setAdduser(prev => !prev)}>+팀원 추가하기</div>
+                        <div>
+                            {selectedUsers.map(user => (
+                                <div key={user.userid} className="selectUser">
+                                    {user.userid}
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
 
             <button onClick={handleSubmit} style={{ marginTop: '20px' }}>프로젝트 등록</button>
+            {adduser && <Useradd setAdduser={setAdduser} selectedUsers={selectedUsers} onSelectUsers={setSelectedUsers} />}
         </div>
     );
 }
